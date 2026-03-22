@@ -10,7 +10,8 @@ export function buildReportText(result: AnalysisResult) {
   const exportsByFile = new Map<string, string[]>();
 
   for (const record of result.unusedExports) {
-    const relativePath = path.relative(result.cwd, record.filePath) || path.basename(record.filePath);
+    const relativePath =
+      path.relative(result.cwd, record.filePath) || path.basename(record.filePath);
     const fileLines = exportsByFile.get(relativePath) ?? [];
     fileLines.push(`  ${record.exportName} (${record.line}:${record.column})`);
     exportsByFile.set(relativePath, fileLines);

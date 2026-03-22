@@ -63,9 +63,9 @@ describe("analyzeProject", () => {
 
     const result = analyzeProject(fixture);
 
-    expect(result.unusedExports.map((record) => [path.basename(record.filePath), record.exportName])).toEqual(
-      [["math.ts", "unused"]],
-    );
+    expect(
+      result.unusedExports.map((record) => [path.basename(record.filePath), record.exportName]),
+    ).toEqual([["math.ts", "unused"]]);
   });
 
   test("treats package entry re-exports as public API", async () => {
@@ -118,9 +118,9 @@ describe("analyzeProject", () => {
 
     const result = analyzeProject(fixture);
 
-    expect(result.unusedExports.map((record) => [path.basename(record.filePath), record.exportName])).toEqual(
-      [["lib.ts", "dropped"]],
-    );
+    expect(
+      result.unusedExports.map((record) => [path.basename(record.filePath), record.exportName]),
+    ).toEqual([["lib.ts", "dropped"]]);
   });
 
   test("prints a readable report", async () => {

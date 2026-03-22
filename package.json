@@ -3,12 +3,13 @@
   "bin": {
     "siftr": "./index.ts"
   },
-  "module": "index.ts",
   "type": "module",
+  "module": "index.ts",
   "scripts": {
+    "start": "bun run index.ts",
+    "check": "bunx tsc --noEmit",
     "test": "bun test",
-    "check": "bun x tsc --noEmit",
-    "verify": "bun test && bun x tsc --noEmit"
+    "verify": "bunx oxfmt --check && bunx oxlint && bun tsc --noEmit && bun test"
   },
   "dependencies": {
     "typescript": "^5.9.2"

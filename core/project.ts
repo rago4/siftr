@@ -123,11 +123,7 @@ function findPublicEntryFiles(cwd: string, program: ts.Program) {
   return publicEntryFiles;
 }
 
-function collectExportsEntries(
-  value: unknown,
-  cwd: string,
-  entryCandidates: Set<string>,
-): void {
+function collectExportsEntries(value: unknown, cwd: string, entryCandidates: Set<string>): void {
   if (typeof value === "string") {
     if (value.startsWith(".")) {
       entryCandidates.add(path.resolve(cwd, value));

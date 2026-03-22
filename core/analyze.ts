@@ -488,13 +488,15 @@ function collectBindingIdentifiers(name: ts.BindingName): ts.Identifier[] {
 
 function hasExportModifier(node: ts.Node) {
   return ts.canHaveModifiers(node)
-    ? ts.getModifiers(node)?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ?? false
+    ? (ts.getModifiers(node)?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ??
+        false)
     : false;
 }
 
 function hasDefaultModifier(node: ts.Node) {
   return ts.canHaveModifiers(node)
-    ? ts.getModifiers(node)?.some((modifier) => modifier.kind === ts.SyntaxKind.DefaultKeyword) ?? false
+    ? (ts.getModifiers(node)?.some((modifier) => modifier.kind === ts.SyntaxKind.DefaultKeyword) ??
+        false)
     : false;
 }
 
