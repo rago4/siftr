@@ -3,10 +3,10 @@ import type { AnalysisResult } from "./analyze";
 
 export function buildReportText(result: AnalysisResult) {
   if (result.unusedExports.length === 0) {
-    return "sift\n\nNo unused exports found.";
+    return "siftr\n\nNo unused exports found.";
   }
 
-  const lines = ["sift", "", `${result.unusedExports.length} unused exports found.`, ""];
+  const lines = ["siftr", "", `${result.unusedExports.length} unused exports found.`, ""];
   const exportsByFile = new Map<string, string[]>();
 
   for (const record of result.unusedExports) {

@@ -1,6 +1,6 @@
-# sift
+# siftr
 
-`sift` is a tiny CLI for finding unused exports in a TypeScript codebase.
+`siftr` is a tiny CLI for finding unused exports in a TypeScript codebase.
 
 ## Install dependencies
 
@@ -37,12 +37,12 @@ bun run index.ts packages/app
 
 ```bash
 bun link
-sift
+siftr
 ```
 
 ## How it works
 
-`sift` parses the project with the TypeScript compiler API, builds a graph of exports and re-exports, marks exports used by imports or package entry files, and reports the rest.
+`siftr` parses the project with the TypeScript compiler API, builds a graph of exports and re-exports, marks exports used by imports or package entry files, and reports the rest.
 
 ## Current scope
 

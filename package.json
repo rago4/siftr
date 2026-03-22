@@ -1,7 +1,7 @@
 {
-  "name": "sift",
+  "name": "siftr",
   "bin": {
-    "sift": "./index.ts"
+    "siftr": "./index.ts"
   },
   "module": "index.ts",
   "type": "module",

@@ -153,7 +153,7 @@ describe("analyzeProject", () => {
 });
 
 async function createFixture(files: Record<string, string>) {
-  const directory = await mkdtemp(path.join(os.tmpdir(), "sift-"));
+  const directory = await mkdtemp(path.join(os.tmpdir(), "siftr-"));
   tempDirs.push(directory);
 
   for (const [relativePath, contents] of Object.entries(files)) {

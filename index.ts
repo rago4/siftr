@@ -20,18 +20,18 @@ export async function main() {
 }
 
 export function buildHelpText() {
-  return `sift
+  return `siftr
 
 Find unused exports in a TypeScript project.
 
 Usage:
-  sift
-  sift <path>
+  siftr
+  siftr <path>
 
 Examples:
-  sift
-  sift .
-  sift packages/app
+  siftr
+  siftr .
+  siftr packages/app
 `;
 }
 
