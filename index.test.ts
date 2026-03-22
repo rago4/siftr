@@ -174,7 +174,7 @@ describe("analyzeProject", () => {
     const result = analyzeProject(fixture);
     const report = buildReportText(result);
 
-    expect(report).toContain("1 unused exports found.");
+    expect(report).toContain("Unused exports (1)");
     expect(report).toContain("src/index.ts");
     expect(report).toContain("unused");
   });
@@ -202,9 +202,9 @@ describe("analyzeProject", () => {
     const result = analyzeProject(fixture);
     const report = buildReportText(result);
 
-    expect(report).toContain("Default exports to review:");
+    expect(report).toContain("Default exports to review (1)");
     expect(report).toContain("src/index.ts");
-    expect(report).not.toContain("unused exports found.");
+    expect(report).not.toContain("Unused exports (");
   });
 });
 

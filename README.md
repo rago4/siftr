@@ -67,6 +67,7 @@ bun run verify
 - no config file
 - current directory or a single path argument
 - conservative behavior when module resolution is unclear
+- explicit default exports are listed in a separate review section
 
 ## Known limitations
 
