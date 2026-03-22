@@ -33,6 +33,14 @@ export function buildReportText(result: AnalysisResult) {
     lines.push("");
   }
 
+  const hasDependencyFindings =
+    result.unusedDependencies.length > 0 || result.unusedDevDependencies.length > 0;
+
+  if (hasDependencyFindings) {
+    lines.push("Dependency results are conservative and may require manual review.");
+    lines.push("");
+  }
+
   if (result.unusedDependencies.length > 0) {
     lines.push(`Unused dependencies (${result.unusedDependencies.length})`);
     lines.push("");
