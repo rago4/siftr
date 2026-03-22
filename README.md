@@ -1,6 +1,6 @@
 # siftr
 
-`siftr` is a tiny CLI for finding unused exports in a TypeScript codebase.
+`siftr` is a tiny CLI for finding unused exports and stale dependencies in TypeScript projects.
 
 ⚠️ Warning: `siftr` is still experimental, so treat the results as a strong review signal rather than an automatic source of truth.
 
