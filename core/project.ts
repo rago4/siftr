@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 
-export type LoadedProject = {
+type LoadedProject = {
   cwd: string;
   program: ts.Program;
   sourceFiles: ts.SourceFile[];

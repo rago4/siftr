@@ -1,6 +1,6 @@
 import path from "node:path";
 
-export type ParsedCliArgs = {
+type ParsedCliArgs = {
   help: boolean;
   cwd: string;
 };

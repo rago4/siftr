@@ -2,7 +2,7 @@ import path from "node:path";
 import ts from "typescript";
 import { loadProject, resolveModuleSourceFile } from "./project";
 
-export type ExportRecord = {
+type ExportRecord = {
   id: string;
   filePath: string;
   exportName: string;
