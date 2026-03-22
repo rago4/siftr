@@ -44,16 +44,16 @@ siftr
 
 ## Pre-push checks
 
-A simple `pre-push` hook lives in [`.githooks/pre-push`](/Users/rafal.golawski/Projects/sift/.githooks/pre-push) and runs the project's verification command before Git pushes your branch.
+This repo includes a dependency-free `pre-push` hook in `.githooks`.
 
-Set it up once in your local clone:
+Enable it once per local clone:
 
 ```bash
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-push
 ```
 
-That hook executes:
+The hook runs:
 
 ```bash
 bun run verify
