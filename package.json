@@ -1,0 +1,19 @@
+{
+  "name": "sift",
+  "bin": {
+    "sift": "./index.ts"
+  },
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "check": "bun x tsc --noEmit",
+    "verify": "bun test && bun x tsc --noEmit"
+  },
+  "dependencies": {
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
