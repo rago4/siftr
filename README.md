@@ -63,17 +63,14 @@ bun run verify
 
 ## Current scope
 
-- TypeScript-first static analysis
-- no config file
-- current directory or a single path argument
-- unused `dependencies` and `devDependencies` from `package.json`
-- package usage from source imports, package scripts, and `tsconfig.json`
-- conservative behavior when module resolution is unclear
-- explicit default exports are listed in a separate review section
+- reports unused named exports
+- lists explicit default exports in a separate review section
+- reports unused `dependencies` and `devDependencies`
+- recognizes package usage from source imports, package scripts, and `tsconfig.json`
+- works on the current project or a provided project path
 
 ## Known limitations
 
-- namespace imports are treated conservatively
-- dynamic runtime usage is not detected
-- framework-specific magic entrypoints are not modeled yet
-- tooling packages are only detected from a small set of obvious signals for now
+- dynamic or runtime-only usage is not detected
+- framework-specific entrypoints and conventions are not modeled yet
+- some tooling packages may need broader config-file support in future
