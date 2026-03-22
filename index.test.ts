@@ -206,6 +206,124 @@ describe("analyzeProject", () => {
     expect(report).toContain("src/index.ts");
     expect(report).not.toContain("Unused exports (");
   });
+
+  test("reports unused dependencies and ignores tsconfig-driven typescript usage", async () => {
+    const fixture = await createFixture({
+      "package.json": JSON.stringify(
+        {
+          name: "fixture",
+          dependencies: {
+            react: "^19.0.0",
+            lodash: "^4.17.21",
+            typescript: "^5.0.0",
+          },
+        },
+        null,
+        2,
+      ),
+      "tsconfig.json": JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ESNext",
+            module: "Preserve",
+            moduleResolution: "bundler",
+            allowImportingTsExtensions: true,
+            noEmit: true,
+          },
+          include: ["src/**/*.ts"],
+        },
+        null,
+        2,
+      ),
+      "src/index.ts": 'import React from "react";\n\nconsole.log(React);\n',
+    });
+
+    const result = analyzeProject(fixture);
+
+    expect(result.unusedDependencies).toEqual(["lodash"]);
+    expect(result.unusedDevDependencies).toEqual([]);
+  });
+
+  test("reports unused dev dependencies and respects package scripts", async () => {
+    const fixture = await createFixture({
+      "package.json": JSON.stringify(
+        {
+          name: "fixture",
+          scripts: {
+            check: "tsc --noEmit",
+          },
+          devDependencies: {
+            typescript: "^5.0.0",
+            vitest: "^3.0.0",
+          },
+        },
+        null,
+        2,
+      ),
+      "tsconfig.json": JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ESNext",
+            module: "Preserve",
+            moduleResolution: "bundler",
+            allowImportingTsExtensions: true,
+            noEmit: true,
+          },
+          include: ["src/**/*.ts"],
+        },
+        null,
+        2,
+      ),
+      "src/index.ts": "export const used = 1;\n",
+    });
+
+    const result = analyzeProject(fixture);
+
+    expect(result.unusedDependencies).toEqual([]);
+    expect(result.unusedDevDependencies).toEqual(["vitest"]);
+  });
+
+  test("prints unused dependency sections", async () => {
+    const fixture = await createFixture({
+      "package.json": JSON.stringify(
+        {
+          name: "fixture",
+          dependencies: {
+            react: "^19.0.0",
+            lodash: "^4.17.21",
+          },
+          devDependencies: {
+            vitest: "^3.0.0",
+          },
+        },
+        null,
+        2,
+      ),
+      "tsconfig.json": JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ESNext",
+            module: "Preserve",
+            moduleResolution: "bundler",
+            allowImportingTsExtensions: true,
+            noEmit: true,
+          },
+          include: ["src/**/*.ts"],
+        },
+        null,
+        2,
+      ),
+      "src/index.ts": 'import React from "react";\n\nconsole.log(React);\n',
+    });
+
+    const result = analyzeProject(fixture);
+    const report = buildReportText(result);
+
+    expect(report).toContain("Unused dependencies (1)");
+    expect(report).toContain("lodash");
+    expect(report).toContain("Unused devDependencies (1)");
+    expect(report).toContain("vitest");
+  });
 });
 
 async function createFixture(files: Record<string, string>) {

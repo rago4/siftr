@@ -1,5 +1,6 @@
 import path from "node:path";
 import ts from "typescript";
+import { analyzeDependencyUsage } from "./dependencies";
 import { loadProject, resolveModuleSourceFile } from "./project";
 
 type ExportRecord = {
@@ -15,6 +16,8 @@ export type AnalysisResult = {
   cwd: string;
   defaultExports: ExportRecord[];
   totalExports: number;
+  unusedDependencies: string[];
+  unusedDevDependencies: string[];
   unusedExports: ExportRecord[];
 };
 
@@ -43,6 +46,7 @@ type ImportUsage =
 
 export function analyzeProject(cwd: string): AnalysisResult {
   const project = loadProject(cwd);
+  const dependencyUsage = analyzeDependencyUsage(project.cwd, project.sourceFiles);
   const modules = new Map<string, Map<string, ExportRecord>>();
   const explicitRecordIds = new Set<string>();
   const reExportEdges: ReExportEdge[] = [];
@@ -153,6 +157,8 @@ export function analyzeProject(cwd: string): AnalysisResult {
     cwd: project.cwd,
     defaultExports,
     totalExports: allRecords.length,
+    unusedDependencies: dependencyUsage.unusedDependencies,
+    unusedDevDependencies: dependencyUsage.unusedDevDependencies,
     unusedExports,
   };
 }

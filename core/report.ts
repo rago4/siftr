@@ -2,8 +2,13 @@ import path from "node:path";
 import type { AnalysisResult } from "./analyze";
 
 export function buildReportText(result: AnalysisResult) {
-  if (result.unusedExports.length === 0 && result.defaultExports.length === 0) {
-    return "siftr\n\nNo unused exports found.";
+  if (
+    result.unusedExports.length === 0 &&
+    result.defaultExports.length === 0 &&
+    result.unusedDependencies.length === 0 &&
+    result.unusedDevDependencies.length === 0
+  ) {
+    return "siftr\n\nNo unused exports or dependencies found.";
   }
 
   const lines = ["siftr", ""];
@@ -25,6 +30,20 @@ export function buildReportText(result: AnalysisResult) {
       );
     }
 
+    lines.push("");
+  }
+
+  if (result.unusedDependencies.length > 0) {
+    lines.push(`Unused dependencies (${result.unusedDependencies.length})`);
+    lines.push("");
+    lines.push(...formatPackageLines(result.unusedDependencies));
+    lines.push("");
+  }
+
+  if (result.unusedDevDependencies.length > 0) {
+    lines.push(`Unused devDependencies (${result.unusedDevDependencies.length})`);
+    lines.push("");
+    lines.push(...formatPackageLines(result.unusedDevDependencies));
     lines.push("");
   }
 
@@ -58,4 +77,8 @@ function formatGroupedExports(cwd: string, records: AnalysisResult["unusedExport
   }
 
   return lines;
+}
+
+function formatPackageLines(packages: string[]) {
+  return packages.map((packageName) => `  ${packageName}`);
 }
