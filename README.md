@@ -2,6 +2,8 @@
 
 `siftr` is a tiny CLI for finding unused exports in a TypeScript codebase.
 
+⚠️ Warning: `siftr` is still experimental, so treat the results as a strong review signal rather than an automatic source of truth.
+
 ## Install dependencies
 
 ```bash
