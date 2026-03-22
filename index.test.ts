@@ -123,6 +123,34 @@ describe("analyzeProject", () => {
     ).toEqual([["lib.ts", "dropped"]]);
   });
 
+  test("moves default exports into a separate review list", async () => {
+    const fixture = await createFixture({
+      "package.json": JSON.stringify({ name: "fixture" }, null, 2),
+      "tsconfig.json": JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ESNext",
+            module: "Preserve",
+            moduleResolution: "bundler",
+            allowImportingTsExtensions: true,
+            noEmit: true,
+          },
+          include: ["src/**/*.ts"],
+        },
+        null,
+        2,
+      ),
+      "src/index.ts": "export default function main() { return 1; }\nexport const unused = 2;\n",
+    });
+
+    const result = analyzeProject(fixture);
+
+    expect(result.unusedExports.map((record) => record.exportName)).toEqual(["unused"]);
+    expect(
+      result.defaultExports.map((record) => [path.basename(record.filePath), record.exportName]),
+    ).toEqual([["index.ts", "default"]]);
+  });
+
   test("prints a readable report", async () => {
     const fixture = await createFixture({
       "package.json": JSON.stringify({ name: "fixture" }, null, 2),
@@ -149,6 +177,34 @@ describe("analyzeProject", () => {
     expect(report).toContain("1 unused exports found.");
     expect(report).toContain("src/index.ts");
     expect(report).toContain("unused");
+  });
+
+  test("prints default exports in a separate section", async () => {
+    const fixture = await createFixture({
+      "package.json": JSON.stringify({ name: "fixture" }, null, 2),
+      "tsconfig.json": JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ESNext",
+            module: "Preserve",
+            moduleResolution: "bundler",
+            allowImportingTsExtensions: true,
+            noEmit: true,
+          },
+          include: ["src/**/*.ts"],
+        },
+        null,
+        2,
+      ),
+      "src/index.ts": "export default function main() { return 1; }\n",
+    });
+
+    const result = analyzeProject(fixture);
+    const report = buildReportText(result);
+
+    expect(report).toContain("Default exports to review:");
+    expect(report).toContain("src/index.ts");
+    expect(report).not.toContain("unused exports found.");
   });
 });
 

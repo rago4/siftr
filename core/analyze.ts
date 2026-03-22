@@ -13,6 +13,7 @@ type ExportRecord = {
 
 export type AnalysisResult = {
   cwd: string;
+  defaultExports: ExportRecord[];
   totalExports: number;
   unusedExports: ExportRecord[];
 };
@@ -122,8 +123,19 @@ export function analyzeProject(cwd: string): AnalysisResult {
   }
 
   const allRecords = [...modules.values()].flatMap((moduleExports) => [...moduleExports.values()]);
+  const defaultExports = allRecords
+    .filter((record) => explicitRecordIds.has(record.id))
+    .filter((record) => record.exportName === "default")
+    .sort((left, right) => {
+      if (left.filePath !== right.filePath) {
+        return left.filePath.localeCompare(right.filePath);
+      }
+
+      return left.line - right.line;
+    });
   const unusedExports = allRecords
     .filter((record) => explicitRecordIds.has(record.id))
+    .filter((record) => record.exportName !== "default")
     .filter((record) => !usedRecordIds.has(record.id))
     .sort((left, right) => {
       if (left.filePath !== right.filePath) {
@@ -139,6 +151,7 @@ export function analyzeProject(cwd: string): AnalysisResult {
 
   return {
     cwd: project.cwd,
+    defaultExports,
     totalExports: allRecords.length,
     unusedExports,
   };
