@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+
+echo "Running verify checks..."
+bun run verify

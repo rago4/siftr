@@ -40,6 +40,23 @@ bun link
 siftr
 ```
 
+## Pre-push checks
+
+A simple `pre-push` hook lives in [`.githooks/pre-push`](/Users/rafal.golawski/Projects/sift/.githooks/pre-push) and runs the project's verification command before Git pushes your branch.
+
+Set it up once in your local clone:
+
+```bash
+git config core.hooksPath .githooks
+chmod +x .githooks/pre-push
+```
+
+That hook executes:
+
+```bash
+bun run verify
+```
+
 ## How it works
 
 `siftr` parses the project with the TypeScript compiler API, builds a graph of exports and re-exports, marks exports used by imports or package entry files, and reports the rest.
